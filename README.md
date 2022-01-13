@@ -1,4 +1,4 @@
 # Zettr
 Just Zettr
 
-![Zettr Logo](./images/logo.png)
+![Zettr Logo](.src/assets/images/logo.png)
