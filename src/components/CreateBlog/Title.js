@@ -22,7 +22,10 @@ export default function SubNavBar(props) {
   };
 
   const updateHeight = () => {
-    if (titleElement.current.scrollHeight >= 96) titleElement.current.style.height = `${titleElement.current.scrollHeight}px`;
+    if (titleElement.current.scrollHeight >= 64) {
+      titleElement.current.style.height = "1px";
+      titleElement.current.style.height = `${titleElement.current.scrollHeight}px`;
+    }
   };
 
   return (

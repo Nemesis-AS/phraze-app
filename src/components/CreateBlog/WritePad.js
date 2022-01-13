@@ -8,6 +8,7 @@ export default function WritePad(props) {
   const [bodyText, setBodyText] = useState("");
   const [bodyLabel, setBodyLabel] = useState("Write you story...");
   const [currentTab, setCurrentTab] = useState("write"); // Possible Values: write, preview, guide
+  const [currentHeight, setCurrentHeight] = useState(96);
 
   const darkBackground = getThemeColors().darkBackground;
   const greyColor = getThemeColors().greyColor;
@@ -104,13 +105,18 @@ export default function WritePad(props) {
 
   const updateHeight = () => {
     // Change the height of the textarea if the content is larger
-    if (bodyTextArea.current.scrollHeight >= 96) bodyTextArea.current.style.height = `${bodyTextArea.current.scrollHeight}px`;
+    if (bodyTextArea.current.scrollHeight >= 96) {
+      setCurrentHeight(1);
+      setCurrentHeight(bodyTextArea.current.scrollHeight);
+      // bodyTextArea.current.style.height = "128px";
+      // bodyTextArea.current.style.height = `${bodyTextArea.current.scrollHeight}px`;
+    }
   }
 
   const getFormattedString = (text, pointerStart, pointerEnd) => {
     let textToAdd = text.split("||");
     if (textToAdd[1] === " ") textToAdd[1] = "";
-    let finalText = bodyText.substring(0, pointerStart - textToAdd[0].length) + textToAdd[0] + bodyText.substring(pointerStart - textToAdd[0].length, pointerEnd) + textToAdd[1] + bodyText.substring(pointerEnd);
+    let finalText = bodyText.substring(0, pointerStart) + textToAdd[0] + bodyText.substring(pointerStart, pointerEnd) + textToAdd[1] + bodyText.substring(pointerEnd);
     return finalText;
   }
 
@@ -132,6 +138,7 @@ export default function WritePad(props) {
               color: props.mode === "light" ? "black" : "white",
               border: "none",
               boxShadow: "none",
+              height: `${currentHeight}px`,
               backgroundColor: `${
                 props.mode === "light" ? "white" : darkBackground
               }`,
@@ -146,7 +153,7 @@ export default function WritePad(props) {
             }}>
             {bodyLabel}
           </label>
-      </div>): <PreviewMarkdown text={currentTab === "preview" ? bodyText : "# Guide"} />}
+      </div>): <PreviewMarkdown mode={props.mode} text={currentTab === "preview" ? bodyText : "# Guide"} />}
     </div>
   );
 }
