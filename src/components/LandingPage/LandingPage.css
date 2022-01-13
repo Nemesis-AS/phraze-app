@@ -1,0 +1,22 @@
+.page-headline {
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.sub-heading {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.getStarted {
+  width: 300px;
+  height: 80px;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.card-image {
+  background-color: white;
+  border-radius: 10px;
+  height: 400px;
+}

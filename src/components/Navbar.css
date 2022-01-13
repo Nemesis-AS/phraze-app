@@ -1,0 +1,21 @@
+
+
+.navbar {
+  min-height: 85px;
+  border-bottom: 1.5px solid rgb(237, 237, 237);
+}
+
+.navnar-darkTheme{
+  border-bottom: 1.5px solid rgba(196, 196, 196, 0.138);
+}
+
+.type1-button:hover {
+  background-color: rgba(228, 228, 228, 0.33);
+}
+.login-btn{
+  width: 90px;
+
+}
+
+
+
