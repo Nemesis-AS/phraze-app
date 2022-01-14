@@ -1,10 +1,14 @@
 import jQuery from "jquery";
-function login() {
+
+const loginSuccessEvent = new Event("login-success");
+
+function login(successCallback) {
   identityWindow = window.open(
     "https://identity.deso.org/log-in?accessLevelRequest=3",
     null,
     "toolbar=no, width=800, height=1000, top=0, left=0"
   );
+  window.addEventListener("login-success", successCallback);
 }
 
 function handleInit(e) {
@@ -31,6 +35,7 @@ function handleLogin(payload) {
         // store payload in local storage
         localStorage.setItem("lastLoggedInUser", payload.publicKeyAdded);
         localStorage.setItem("IdentityUsers", JSON.stringify(payload.users));
+        window.dispatchEvent(loginSuccessEvent);
       }
     }
   }

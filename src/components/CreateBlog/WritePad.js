@@ -15,42 +15,17 @@ export default function WritePad(props) {
   const bodyTextArea = useRef();
 
   const appendBodyActions = {
-    H1: {
-      text: "# || ",
-      textPosition: 0 // Relative to Pointer
-    },
-    H2: {
-      text: "## || ",
-      textPosition: 0
-    },
-    H3: {
-      text: "### || ",
-      textPosition: 0
-    },
-    bold: {
-      text: "**||**"
-    },
-    italic: {
-      text: "*||*"
-    },
-    quote: {
-      text: "\n> || "
-    },
-    code: {
-      text: "\n```\n||```"
-    },
-    link: {
-      text: "[||](Link)"
-    },
-    embed: {
-      text: "%[||]"
-    },
-    list: {
-      text: "\n- || "
-    },
-    "list-ol": {
-      text: "\n1. || "
-    }
+    H1: "# || ",
+    H2: "## || ",
+    H3: "### || ",
+    bold: "**||**",
+    italic: "*||*",
+    quote: "\n> || ",
+    code: "\n```\n||```",
+    link: "[||](Link)",
+    embed: "%[||]",
+    list: "\n- || ",
+    "list-ol": "\n1. || "
   }
 
   const handleBodyChange = (event) => {
@@ -89,15 +64,16 @@ export default function WritePad(props) {
     let startBegin = bodyTextArea.current.selectionStart;
     let startEnd = bodyTextArea.current.selectionEnd;
     let actionInfo = appendBodyActions[action];
+    if (actionInfo === undefined) return;
 
     if (startBegin === startEnd) {
-        const splitText = actionInfo.text.split("||");
+        const splitText = actionInfo.split("||");
         if (splitText[1] === " ") splitText[1] = "";
         let pointerOffset = splitText[0].length;
         setBodyText(bodyText + splitText.join(""));
         focusInput(startBegin + pointerOffset);
     } else {
-      setBodyText(getFormattedString(actionInfo.text, startBegin, startEnd));
+      setBodyText(getFormattedString(actionInfo, startBegin, startEnd));
     }
 
     updateHeight();
@@ -132,7 +108,7 @@ export default function WritePad(props) {
             ref={bodyTextArea}
             value={bodyText}
             style={{
-              height: "120px",
+              minHeight: "120px",
               resize: "none",
               fontSize: "1.5rem",
               color: props.mode === "light" ? "black" : "white",

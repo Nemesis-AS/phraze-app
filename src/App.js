@@ -4,15 +4,19 @@ import {
   Routes as Switch,
   Route
 } from "react-router-dom";
+import { useState } from "react";
 
 import Navbar from "./components/Navbar";
-import { useState } from "react";
 import CreateBlog from "./components/CreateBlog/CreateBlog";
 import Landing from "./components/LandingPage/Landing";
+import Feed from "./components/Feed/Feed";
+
 import login from "./login.js";
 
 function App() {
   const [theme, setTheme] = useState("light");
+  const [loginStatus, setLoginStatus] = useState(false);
+
   const toggleMode = () => {
     if (theme === "light") {
       setTheme("dark");
@@ -24,7 +28,11 @@ function App() {
   };
 
   const loginWithDeSo = () => {
-    login();
+    login(onLoginSuccess);
+  };
+
+  const onLoginSuccess = () => {
+    setLoginStatus(true);
   };
 
   let navbarContent = {
@@ -46,7 +54,7 @@ function App() {
                 toggleMode={toggleMode}
                 loginWithDeSo={loginWithDeSo}
               />
-              <Landing mode={theme} loginWithDeso={loginWithDeSo} />
+              <Landing mode={theme} loginWithDeso={loginWithDeSo} loginStatus={loginStatus} />
             </>
           }></Route>
         <Route
@@ -61,6 +69,10 @@ function App() {
               <CreateBlog mode={theme} />
             </>
           }></Route>
+        <Route
+          path="/feed"
+          element={ <Feed /> }>
+        </Route>
       </Switch>
     </Router>
   );

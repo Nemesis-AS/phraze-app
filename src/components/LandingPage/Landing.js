@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 import getThemeColors from "../Themes/Theme";
 import peopleWithDeso from "../../assets/images/peopleWithDeso.svg";
@@ -8,6 +9,15 @@ import earnRevenue from "../../assets/images/earnRevenue.svg";
 
 export default function Landing(props) {
   const lightWhite = getThemeColors().lightBorder;
+
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("lastLoggedInUser")) {
+      navigate("/feed", { replace: true });
+    }
+  }, [props.loginStatus]);
+
   return (
     <div className='container landing-body '>
       <div className='container my-5' style={{ maxWidth: "93%" }}>
