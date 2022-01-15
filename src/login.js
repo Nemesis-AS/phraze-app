@@ -2,6 +2,11 @@ import jQuery from "jquery";
 
 const loginSuccessEvent = new Event("login-success");
 
+var init = false;
+var iframe = null;
+var pendingRequests = [];
+var identityWindow = null;
+
 function login(successCallback) {
   identityWindow = window.open(
     "https://identity.deso.org/log-in?accessLevelRequest=3",
@@ -54,24 +59,19 @@ function respond(e, t, n) {
 
 function postMessage(e) {
   init
-    ? this.iframe.contentWindow.postMessage(e, "*")
+    ? iframe.contentWindow.postMessage(e, "*")
     : pendingRequests.push(e);
 }
 
 window.addEventListener("message", (message) => {
   const {
-    data: { id: id, method: method, payload: payload },
+    data: { method, payload },
   } = message;
-  if (method == "initialize") {
+  if (method === "initialize") {
     handleInit(message);
-  } else if (method == "login") {
+  } else if (method === "login") {
     handleLogin(payload);
   }
 });
-
-var init = false;
-var iframe = null;
-var pendingRequests = [];
-var identityWindow = null;
 
 export default login;

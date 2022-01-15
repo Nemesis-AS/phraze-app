@@ -1,35 +1,26 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import "./LandingPage.css";
 import getThemeColors from "../Themes/Theme";
 import peopleWithDeso from "../../assets/images/peopleWithDeso.svg";
-import writeBlog from "../../assets/images/writeBlog.svg";
+// import writeBlog from "../../assets/images/writeBlog.svg";
 import noAds from "../../assets/images/noAds.svg";
 import earnRevenue from "../../assets/images/earnRevenue.svg";
 
 export default function Landing(props) {
   const lightWhite = getThemeColors().lightBorder;
 
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    if (localStorage.getItem("lastLoggedInUser")) {
-      navigate("/feed", { replace: true });
-    }
-  }, [props.loginStatus]);
-
   return (
     <div className='container landing-body '>
       <div className='container my-5' style={{ maxWidth: "93%" }}>
         <h1
           className='text-center font-weight-bold page-headline'
-          style={{ color: `${props.mode == "light" ? "black" : "white"}` }}>
+          style={{ color: `${props.mode === "light" ? "black" : "white"}` }}>
           Publish and own your blog posts like never before! 🔑
         </h1>
         <div className='container' style={{ maxWidth: "93%" }}>
           <h2
             className='text-center sub-heading my-5'
-            style={{ color: `${props.mode == "light" ? "grey" : lightWhite}` }}>
+            style={{ color: `${props.mode === "light" ? "grey" : lightWhite}` }}>
             Write blog posts to blockchain, share ideas, and connect with the
             global community without permission!
           </h2>
@@ -45,13 +36,13 @@ export default function Landing(props) {
       <div className='my-5 justify-content-center shadow rounded py-5 px-2'>
         <h1
           className='text-center'
-          style={{ color: `${props.mode == "light" ? "black" : "white"}` }}>
+          style={{ color: `${props.mode === "light" ? "black" : "white"}` }}>
     
           No paywall. No ads. Only Content Ownership with DeSo Blockchain.
         </h1>
         <div
           className='container my-5'
-          style={{ color: `${props.mode == "light" ? "black" : "white"}` }}>
+          style={{ color: `${props.mode === "light" ? "black" : "white"}` }}>
           <div className='row'>
             <div className='d-flex flex-column flex-lg-row justify-content-lg-center panel'>
               <div className='container'>

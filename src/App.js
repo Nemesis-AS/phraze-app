@@ -4,7 +4,7 @@ import {
   Routes as Switch,
   Route
 } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Navbar from "./components/Navbar";
 import CreateBlog from "./components/CreateBlog/CreateBlog";
@@ -16,6 +16,10 @@ import login from "./login.js";
 function App() {
   const [theme, setTheme] = useState("light");
   const [loginStatus, setLoginStatus] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("lastLoggedInUser")) setLoginStatus(true);
+  }, [loginStatus]);
 
   const toggleMode = () => {
     if (theme === "light") {
@@ -48,14 +52,14 @@ function App() {
         <Route
           path='/'
           element={
-            <>
+            loginStatus ? <Feed /> : (<>
               <Navbar
                 mode={theme}
                 toggleMode={toggleMode}
                 loginWithDeSo={loginWithDeSo}
               />
               <Landing mode={theme} loginWithDeso={loginWithDeSo} loginStatus={loginStatus} />
-            </>
+            </>)
           }></Route>
         <Route
           path='/create'
@@ -69,10 +73,6 @@ function App() {
               <CreateBlog mode={theme} />
             </>
           }></Route>
-        <Route
-          path="/feed"
-          element={ <Feed /> }>
-        </Route>
       </Switch>
     </Router>
   );
