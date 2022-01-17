@@ -38,7 +38,17 @@ export default function Navbar(props) {
                   Home
                 </a>
               </li>
+              {props.navbarContent.createPost ? (
+              <li className='nav-item'>
+                <a className='nav-link active' aria-current='page' href='/create'>
+                  Create Story
+                </a>
+              </li>
+            ) : (
+              <a></a>
+            )}
             </ul>
+            
             {props.navbarContent.toogleSwitch ? (
               <div
                 className={`form-check form-switch text-${

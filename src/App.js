@@ -44,6 +44,8 @@ function App() {
     settingButton: true,
     publishButton: true,
     loginButton: false,
+    createPost: true,
+
   }; // for /create navbar component
 
   return (
@@ -52,7 +54,11 @@ function App() {
         <Route
           path='/'
           element={
-            loginStatus ? <Feed /> : (<>
+            loginStatus ? (<>             <Navbar
+              mode={theme}
+              toggleMode={toggleMode}
+              navbarContent={navbarContent}
+            /> <Feed /></>) : (<>
               <Navbar
                 mode={theme}
                 toggleMode={toggleMode}

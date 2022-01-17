@@ -23,7 +23,7 @@ export default function Feed() {
         })
     };
 
-    const { data, error, isLoading } = useFetch('get-posts-stateless', requestOptions);
+        const { data, error, isLoading } = useFetch('get-posts-stateless', requestOptions);
 
     return (
         <div>
@@ -31,7 +31,11 @@ export default function Feed() {
                 <div>
                     {!data && isLoading && "Loading..."}
                     {!data && error && "Error..."}
-                    {data && data.PostsFound.map((x) => <div key={x.PostHashHex}>{x.Body}</div>)}
+                    {data && data.PostsFound.map((x) => <div key={x.PostHashHex}>
+                        <br></br>
+                        <p>username: {x.ProfileEntryResponse.Username}</p>
+                        {x.Body}
+                        </div>)}
                 </div>
             </div>
         </div>
