@@ -58,7 +58,7 @@ function App() {
               mode={theme}
               toggleMode={toggleMode}
               navbarContent={navbarContent}
-            /> <Feed /></>) : (<>
+            /> <Feed mode={theme} /></>) : (<>
               <Navbar
                 mode={theme}
                 toggleMode={toggleMode}
