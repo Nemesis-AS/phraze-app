@@ -64,34 +64,35 @@ export default function WritePadBar(props) {
               }`}
               aria-labelledby='dropdownMenuLink'>
               <li>
-                <a
+                <button
                   className={`dropdown-item text-${
                     props.mode === "light" ? "blakc" : "white"
                   }`}
                   id='H1'
                   onClick={handleMarkDownButtons}>
                   H1
-                </a>
+                </button>
               </li>
               <li>
-                <a
+                <button
                   className={`dropdown-item text-${
                     props.mode === "light" ? "blakc" : "white"
                   }`}
                   id='H2'
+   
                   onClick={handleMarkDownButtons}>
                   H2
-                </a>
+                </button>
               </li>
               <li>
-                <a
+                <button
                   className={`dropdown-item text-${
                     props.mode === "light" ? "blakc" : "white"
                   }`}
                   id='H3'
                   onClick={handleMarkDownButtons}>
                   H3
-                </a>
+                </button>
               </li>
             </ul>
             <WritePadBtn icon="bold" id="bold" mode={props.mode} onClickEvent={handleMarkDownButtons} />
