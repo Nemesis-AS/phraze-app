@@ -9,7 +9,7 @@ export const useFetch = (method, options) => {
     const runFetch = async () => {
       setIsLoading(true);
       try {
-        const url = 'https://devnode.online/api/v0/' + method;
+        const url = "https://devnode.online/api/v0/" + method;
         const res = await fetch(url, options);
         const json = await res.json();
         setData(json);
