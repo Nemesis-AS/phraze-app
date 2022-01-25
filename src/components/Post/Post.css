@@ -1,0 +1,16 @@
+img {
+  display: block;
+  border-radius: 0.25rem;
+  margin: 0 auto;
+}
+
+/* pre {
+  position: relative;
+}
+
+pre::before {
+  content: "copy";
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+} */

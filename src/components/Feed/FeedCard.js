@@ -3,6 +3,7 @@ import Logo from "../../assets/images/logo.png";
 import getReadableDate from "../../utils/readableDate"
 import "./feed.css";
 export default function FeedCard({
+  postId,
   title,
   username,
   timestamp,
@@ -61,7 +62,7 @@ export default function FeedCard({
               <i className='fas fa-gem'></i>
               {diamondCount}
             </button>
-            <button className='btn btn-outline-primary mx-1'>Read More</button>
+            <a className='btn btn-outline-primary mx-1' role='button' href={`/post/${postId}`}>Read More</a>
           </div>
           <div className='col-md-4 px-2'>
             {imageURL ? (

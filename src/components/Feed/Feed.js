@@ -38,6 +38,7 @@ export default function Feed({ mode }) {
         data.PostsFound.map((x) => (
           <FeedCard
             key={x.PostHashHex}
+            postId={x.PostHashHex}
             username={x.ProfileEntryResponse.Username}
             body={x.Body}
             mode={mode}

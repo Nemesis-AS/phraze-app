@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import CreateBlog from "./components/CreateBlog/CreateBlog";
 import Landing from "./components/LandingPage/Landing";
 import Feed from "./components/Feed/Feed";
+import Post from "./components/Post/Post";
 
 import login from "./login.js";
 
@@ -66,7 +67,8 @@ function App() {
               />
               <Landing mode={theme} loginWithDeso={loginWithDeSo} loginStatus={loginStatus} />
             </>)
-          }></Route>
+          }
+        ></Route>
         <Route
           path='/create'
           element={
@@ -78,7 +80,21 @@ function App() {
               />
               <CreateBlog mode={theme} />
             </>
-          }></Route>
+          }
+        ></Route>
+        <Route
+          path="/post/:id"
+          element={
+            <>
+              <Navbar
+                mode={theme}
+                toggleMode={toggleMode}
+                navbarContent={navbarContent}
+              />
+              <Post mode={theme} />
+            </>
+          }
+        ></Route>
       </Switch>
     </Router>
   );
