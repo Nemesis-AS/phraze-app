@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import loginWithDeso from "../assets/images/loginWithDeso.svg";
 export default function Navbar(props) {
+  const themeCheckBox = useRef();
+
+  useEffect(() => {
+    if (props.mode === "dark") themeCheckBox.current.checked = true;
+  }, [])
+
   return (
     <>
       <nav
@@ -50,22 +56,27 @@ export default function Navbar(props) {
             </ul>
             
             {props.navbarContent.toogleSwitch ? (
+              <div className={`d-flex align-items-center text-${props.mode === "light" ? "black" : "white"}`}>
+              <div className="fas fa-sun"></div>
               <div
-                className={`form-check form-switch text-${
+                className={`form-check form-switch mx-1 text-${
                   props.mode === "light" ? "black" : "white"
-                }`}>
+              }`}>
                 <input
                   className='form-check-input'
                   onClick={props.toggleMode}
                   type='checkbox'
                   id='flexSwitchCheckDefault'
+                  ref={themeCheckBox}
                 />
+              </div>
+              <div className="fas fa-moon"></div>
               </div>
             ) : (
               <div></div>
             )}
 
-            {props.navbarContent.settingButton ? (
+            {/* {props.navbarContent.settingButton ? (
               <button
                 className={`btn type1-button my-2 my-sm-0 mx-2 text-${
                   props.mode === "light" ? "black" : "white"
@@ -82,7 +93,7 @@ export default function Navbar(props) {
               </button>
             ) : (
               <div></div>
-            )}
+            )} */}
 
             {props.navbarContent.loginButton ? (
               <button

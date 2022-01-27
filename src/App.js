@@ -13,7 +13,7 @@ import DesoApi from './utils/desoApi';
 const IdentityUsersKey = "identityUsersV2";
 
 function App() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [publicKey, setSetPublicKey] = useState(null);
@@ -37,6 +37,9 @@ function App() {
         setLoggedIn(true);
         setSetPublicKey(user.publicKey);
     };
+
+    // Little Theme fix
+    document.body.style.backgroundColor = theme === "light" ? "white" : "#2d3237";
   }, []);
 
   const login = async () => {
@@ -55,9 +58,11 @@ function App() {
     if (theme === "light") {
       setTheme("dark");
       document.body.style.backgroundColor = "#2d3237";
+      localStorage.setItem("theme", "dark");
     } else {
       setTheme("light");
       document.body.style.backgroundColor = "white";
+      localStorage.setItem("theme", "light");
     }
   };
 
