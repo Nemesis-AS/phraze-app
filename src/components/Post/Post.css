@@ -2,6 +2,20 @@ img {
   display: block;
   border-radius: 0.25rem;
   margin: 0 auto;
+  max-width: 90%;
+}
+
+.profile-picture {
+  border-radius: 50%;
+}
+
+.tag-bar {
+  display: flex;
+  width: 100%;
+}
+
+.tag-bar > button {
+  margin: 0 0.5rem;
 }
 
 /* pre {

@@ -25,7 +25,7 @@ export default function Feed({ mode }) {
     }),
   };
 
-  const { data, error, isLoading } = useFetch(
+  const { data, error, isLoading } = useFetch( 
     "get-posts-stateless",
     requestOptions
   );

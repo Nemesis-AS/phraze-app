@@ -7,7 +7,11 @@ export default function SubNavBar(props) {
   const greyColor = getThemeColors().greyColor;
   const [labelText, setLabelText] = useState("Title...");
   const [titleText, setTitleText] = useState("");
+  const [coverImg, setCoverImg] = useState("");
+  const [postTags, setPostTags] = useState([]);
+  const [tagText, setTagText] = useState(""); // A helper for displaying tags
   const titleElement = useRef();
+  const coverInputEl = useRef();
 
   const handleTitleChange = (event) => {
     let title = event.target.value;
@@ -19,6 +23,27 @@ export default function SubNavBar(props) {
     }
 
     updateHeight();
+  };
+
+  const handleTagInputChange = e => {
+    const text = e.target.value;
+    setTagText(text);
+
+    if(text[text.length - 1] === ",") {
+      setPostTags([...postTags, text.trim().replace(",", "")]);
+      setTagText("");
+    }
+  };
+
+  const removeTag = idx => {
+    let tags = [...postTags];
+    tags.splice(idx, 1);
+    setPostTags(tags);
+  };
+
+  const resetCoverImg = () => {
+    setCoverImg("");
+    coverInputEl.current.value = "";
   };
 
   const updateHeight = () => {
@@ -34,13 +59,19 @@ export default function SubNavBar(props) {
         <button
           className={`btn type1-button my-2 my-sm-0 mx-2 text-${
             props.mode === "light" ? "black" : "white"
-          }`}>
+          }`}
+          data-bs-toggle="modal" 
+          data-bs-target="#coverModal" 
+        >
           <i className='far fa-image'></i> Set Cover{" "}
         </button>
         <button
           className={`btn type1-button my-2 my-sm-0 mx-2 text-${
             props.mode === "light" ? "black" : "white"
-          }`}>
+          }`} 
+          data-bs-toggle="modal" 
+          data-bs-target="#tagModal" 
+        >
           <i className='fas fa-hashtag'></i> Add Tags{" "}
         </button>
       </div>
@@ -74,6 +105,62 @@ export default function SubNavBar(props) {
           }}>
           <strong>{labelText}</strong>
         </label>
+      </div>
+      
+      {/* Modals */}
+      <div className="modal fade" id="coverModal" tabIndex="-1" aria-labelledby="coverModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className={`modal-content text-${props.mode === "light" ? "dark": "light"} bg-${props.mode}`}>
+            <div className="modal-header">
+              <h5 className="modal-title" id="coverModalLabel">Set Cover</h5>
+            </div>
+            <div className="modal-body">
+              <div className="input-group mb-3">
+                <input 
+                  type="file" 
+                  className={`form-control text-${props.mode === "light" ? "dark": "light"} bg-${props.mode}`}
+                  ref={coverInputEl}
+                  onChange={e => setCoverImg(URL.createObjectURL(e.target.files[0]))} 
+                />
+              </div>
+              {coverImg && <img src={coverImg} className="d-block mx-auto img-fluid" alt="Cover Image" />}
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-danger" onClick={resetCoverImg}>Reset</button>
+              <button type="button" className="btn btn-success" data-bs-dismiss="modal">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="modal fade" id="tagModal" tabIndex="-1" aria-labelledby="tagModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className={`modal-content text-${props.mode === "light" ? "dark": "light"} bg-${props.mode}`}>
+            <div className="modal-header">
+              <h5 className="modal-title" id="tagModalLabel">Add/Remove Tags</h5>
+            </div>
+            <div className="modal-body">
+              <div className="input-group">
+                {postTags.map((tag, idx) => (
+                  <div key={idx} className="input-group-text d-flex align-items-center p-2">
+                    {tag}
+                    <button className="bg-transparent border-0 fas fa-times" onClick={e => removeTag(idx)}></button>
+                  </div>
+                ))}
+                <input 
+                  type="text" 
+                  className={`form-control text-${props.mode === "light" ? "dark": "light"} bg-${props.mode}`}
+                  value={tagText} 
+                  onChange={handleTagInputChange} 
+                />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-success">Save</button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

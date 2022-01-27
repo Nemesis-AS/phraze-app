@@ -1,9 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes as Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes as Switch, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import Navbar from "./components/Navbar";
@@ -12,15 +8,48 @@ import Landing from "./components/LandingPage/Landing";
 import Feed from "./components/Feed/Feed";
 import Post from "./components/Post/Post";
 
-import login from "./login.js";
+import DesoIdentity from './utils/desoIdentity';
+import DesoApi from './utils/desoApi';
+const IdentityUsersKey = "identityUsersV2";
 
 function App() {
   const [theme, setTheme] = useState("light");
-  const [loginStatus, setLoginStatus] = useState(false);
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [publicKey, setSetPublicKey] = useState(null);
+  const [desoIdentity, setDesoIdentity] = useState(null);
+  const [desoApi, setDesoApi] = useState(null);
 
   useEffect(() => {
-    if (localStorage.getItem("lastLoggedInUser")) setLoginStatus(true);
-  }, [loginStatus]);
+    const di = new DesoIdentity();
+    setDesoIdentity(di);
+    const da = new DesoApi();
+    setDesoApi(da);
+
+    let user = {};
+    if (localStorage.getItem(IdentityUsersKey) === 'undefined'){
+      user = {};
+    } else if (localStorage.getItem(IdentityUsersKey)){
+      user = JSON.parse(localStorage.getItem(IdentityUsersKey) || '{}');
+    };
+
+    if(user.publicKey){
+        setLoggedIn(true);
+        setSetPublicKey(user.publicKey);
+    };
+  }, []);
+
+  const login = async () => {
+    const user = await desoIdentity.loginAsync(4);
+    setSetPublicKey(user.publicKey);
+    setLoggedIn(true);
+  };
+
+  const logout = async () => {
+    const result = await desoIdentity.logout(publicKey);
+    setSetPublicKey(null);
+    setLoggedIn(false);
+  };
 
   const toggleMode = () => {
     if (theme === "light") {
@@ -30,14 +59,6 @@ function App() {
       setTheme("light");
       document.body.style.backgroundColor = "white";
     }
-  };
-
-  const loginWithDeSo = () => {
-    login(onLoginSuccess);
-  };
-
-  const onLoginSuccess = () => {
-    setLoginStatus(true);
   };
 
   let navbarContent = {
@@ -50,12 +71,14 @@ function App() {
   }; // for /create navbar component
 
   return (
+    <>
     <Router>
       <Switch>
         <Route
           path='/'
           element={
-            loginStatus ? (<>             <Navbar
+            loggedIn ? (<>         
+            <Navbar
               mode={theme}
               toggleMode={toggleMode}
               navbarContent={navbarContent}
@@ -63,9 +86,9 @@ function App() {
               <Navbar
                 mode={theme}
                 toggleMode={toggleMode}
-                loginWithDeSo={loginWithDeSo}
+                loginWithDeSo={login}
               />
-              <Landing mode={theme} loginWithDeso={loginWithDeSo} loginStatus={loginStatus} />
+              <Landing mode={theme} loginWithDeso={login} loginStatus={loggedIn} />
             </>)
           }
         ></Route>
@@ -97,6 +120,7 @@ function App() {
         ></Route>
       </Switch>
     </Router>
+  </>
   );
 }
 
