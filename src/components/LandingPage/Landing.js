@@ -55,7 +55,7 @@ export default function Landing(props) {
                   <div className='container'>
                     <h2>Post to DeSo blockchain!</h2>
                     <p>
-                      Zettr enables you to post to the &nbsp;
+                      PhrazeApp enables you to post to the &nbsp;
                       <strong>Decentralized Social Blockchain </strong>
                     </p>
                   </div>
@@ -71,7 +71,7 @@ export default function Landing(props) {
                   <div className='container'>
                     <h2>No ads!</h2>
                     <p>
-                      Ads and annoying popups are such a web2 thing! With zettr,
+                      Ads and annoying popups are such a web2 thing! With PhrazeApp,
                       you can read and write content withot time consuming ads and popups!
                     </p>
                   </div>
