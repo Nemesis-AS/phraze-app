@@ -25,7 +25,7 @@ export default function Navbar(props) {
           </a> */}
 
           <a className='navbar-brand' href='/'>
-            Phraze.app
+            PhrazeApp
           </a>
           <button
             className='navbar-toggler'
@@ -56,7 +56,7 @@ export default function Navbar(props) {
             </ul>
             
             {props.navbarContent.toogleSwitch ? (
-              <div className={`d-flex align-items-center text-${props.mode === "light" ? "black" : "white"}`}>
+              <div className={`d-flex align-items-center text-${props.mode === "light" ? "black" : "white"} mx-2`}>
               <div className="fas fa-sun"></div>
               <div
                 className={`form-check form-switch mx-1 text-${
