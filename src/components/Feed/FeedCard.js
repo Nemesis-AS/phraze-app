@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../../assets/images/logo.png";
+import PreviewMarkdown from "../Markdown/PreviewMarkdown";
 import getReadableDate from "../../utils/readableDate"
 import "./feed.css";
 export default function FeedCard({
@@ -52,7 +53,7 @@ export default function FeedCard({
             </div>
             <h5 className='card-title fs-2'>{extraData.title || "Title"}</h5>
 
-            <p className='card-text'>{truncateString(body)}</p>
+            <p className='card-text'><PreviewMarkdown mode={mode} text={truncateString(body)} /></p>
 
             {/* <button
               className={`btn btn-outline-${
