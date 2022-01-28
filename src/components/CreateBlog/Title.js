@@ -13,6 +13,14 @@ export default function SubNavBar(props) {
   const titleElement = useRef();
   const coverInputEl = useRef();
 
+  const handlePublish = e => {
+    props.submitPost({
+      title: titleText,
+      coverImg: coverImg,
+      tags: postTags
+    });
+  };
+
   const handleTitleChange = (event) => {
     let title = event.target.value;
     setTitleText(title);
@@ -55,25 +63,31 @@ export default function SubNavBar(props) {
 
   return (
     <>
-      <div className='container my-3'>
-        <button
-          className={`btn type1-button my-2 my-sm-0 mx-2 text-${
-            props.mode === "light" ? "black" : "white"
-          }`}
-          data-bs-toggle="modal" 
-          data-bs-target="#coverModal" 
-        >
-          <i className='far fa-image'></i> Set Cover{" "}
-        </button>
-        <button
-          className={`btn type1-button my-2 my-sm-0 mx-2 text-${
-            props.mode === "light" ? "black" : "white"
-          }`} 
-          data-bs-toggle="modal" 
-          data-bs-target="#tagModal" 
-        >
-          <i className='fas fa-hashtag'></i> Add Tags{" "}
-        </button>
+      <div className='container my-3 w-full d-flex justify-content-between'>
+        <div className="container">
+          <button
+            className={`btn type1-button my-2 my-sm-0 mx-2 text-${
+              props.mode === "light" ? "black" : "white"
+            }`}
+            data-bs-toggle="modal" 
+            data-bs-target="#coverModal" 
+          >
+            <i className='far fa-image'></i> Set Cover{" "}
+          </button>
+          <button
+            className={`btn type1-button my-2 my-sm-0 mx-2 text-${
+              props.mode === "light" ? "black" : "white"
+            }`} 
+            data-bs-toggle="modal" 
+            data-bs-target="#tagModal" 
+          >
+            <i className='fas fa-hashtag'></i> Add Tags{" "}
+          </button>
+        </div>
+        <div className="container d-flex justify-content-end">
+          <button className={`btn btn-outline-success`} onClick={handlePublish}>Publish</button>
+        </div>
+        
       </div>
       <div className='form-floating mx-3'>
         <textarea
@@ -120,10 +134,10 @@ export default function SubNavBar(props) {
                   type="file" 
                   className={`form-control text-${props.mode === "light" ? "dark": "light"} bg-${props.mode}`}
                   ref={coverInputEl}
-                  onChange={e => setCoverImg(URL.createObjectURL(e.target.files[0]))} 
+                  onChange={e => setCoverImg(e.target.files[0])} 
                 />
               </div>
-              {coverImg && <img src={coverImg} className="d-block mx-auto img-fluid" alt="Cover Image" />}
+              {coverImg && <img src={URL.createObjectURL(coverImg)} className="d-block mx-auto img-fluid" alt="Cover Image" />}
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-danger" onClick={resetCoverImg}>Reset</button>
@@ -142,9 +156,9 @@ export default function SubNavBar(props) {
             <div className="modal-body">
               <div className="input-group">
                 {postTags.map((tag, idx) => (
-                  <div key={idx} className="input-group-text d-flex align-items-center p-2">
+                  <div key={idx} className={`input-group-text d-flex align-items-center p-2 bg-${props.mode} text-${props.mode === "light" ? "dark": "light"}`}>
                     {tag}
-                    <button className="bg-transparent border-0 fas fa-times" onClick={e => removeTag(idx)}></button>
+                    <button className={`bg-transparent border-0 fas fa-times text-${props.mode === "light" ? "dark": "light"}`} onClick={e => removeTag(idx)}></button>
                   </div>
                 ))}
                 <input 
@@ -157,7 +171,7 @@ export default function SubNavBar(props) {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-success">Save</button>
+              <button type="button" className="btn btn-success" data-bs-dismiss="modal">Save</button>
             </div>
           </div>
         </div>

@@ -4,7 +4,6 @@ import getReadableDate from "../../utils/readableDate"
 import "./feed.css";
 export default function FeedCard({
   postId,
-  title,
   username,
   timestamp,
   body,
@@ -13,8 +12,14 @@ export default function FeedCard({
   imageURL,
   LikeCount,
   diamondCount,
+  extraData
 }) {
   
+  const truncateString = (text, len = 100) => {
+    if (text.length <= len) return text;
+    return text.substring(0, len) + "...";
+  };
+
   return (
     <div
       className={`card text-${mode === "light" ? "black" : "white"} my-1`}
@@ -35,6 +40,7 @@ export default function FeedCard({
                       alt='profile photo'
                       width='50'
                       height='50'
+                      style={{"borderRadius": "50%"}}
                     />
                   </div>
                 </div>
@@ -44,11 +50,11 @@ export default function FeedCard({
                 </div>
               </div>
             </div>
-            <h5 className='card-title fs-2'>{title}</h5>
+            <h5 className='card-title fs-2'>{extraData.title || "Title"}</h5>
 
-            <p className='card-text'>{body}</p>
+            <p className='card-text'>{truncateString(body)}</p>
 
-            <button
+            {/* <button
               className={`btn btn-outline-${
                 mode === "light" ? "dark" : "light"
               } mx-1`}>
@@ -61,18 +67,12 @@ export default function FeedCard({
               } mx-1`}>
               <i className='fas fa-gem'></i>
               {diamondCount}
-            </button>
+            </button> */}
             <a className='btn btn-outline-primary mx-1' role='button' href={`/post/${postId}`}>Read More</a>
           </div>
-          <div className='col-md-4 px-2'>
-            {imageURL ? (
-              <div
-                className='blog-header'
-                style={{ backgroundImage: `url(${imageURL[0]})` }}
-                width='100%'
-                height='100%'></div>
-            ) : (
-              <></>
+          <div className='col-md-4'>
+            {imageURL && (
+              <img src={imageURL[0]} className="img-fluid" alt="Post Cover" />
             )}
           </div>
         </div>
@@ -82,7 +82,6 @@ export default function FeedCard({
 }
 
 FeedCard.defaultProps = {
-  title: "Blog Title",
   username: "Username",
   timestamp: "Today",
   body: "",

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react"; // { useEffect, useState }
 import MarkDownIt from "markdown-it";
 import markdownItEmoji from "markdown-it-emoji";
 import hljs from "highlight.js";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useFetch } from "../../utils/useFetch";
 import getReadableDate from "../../utils/readableDate";
 
@@ -28,7 +28,17 @@ export default function Post({ mode }) {
 
   const params = useParams(); // URL Params[Post ID]
 
-  const { data, error } = useFetch("get-single-post", {
+  // useEffect(() => {
+  //   getPost();
+  // }, []);
+
+  // const getPost = async () => {
+  //   // console.log(desoApi);
+  //   // let post = await desoApi.getSinglePost(params.id);
+  //   // console.log(post)
+  // }
+
+  const { data } = useFetch("get-single-post", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -36,12 +46,14 @@ export default function Post({ mode }) {
     })
   });
 
+  const modeInverse = () => mode === "light" ? "dark" : "light";
+
   return (
   <>
   {data ?
     <div className={`container ${mode === "light" ? "text-black" : "text-white"}`}>
       <section>
-          <div className="h1 my-2">{data.PostFound.ProfileEntryResponse.Username}</div>
+          <div className="h1 my-2">{data.PostFound.PostExtraData.title || data.PostFound.ProfileEntryResponse.Username}</div>
           <div className="user-info d-flex align-items-center">
               <img 
                 src={`https://diamondapp.com/api/v0/get-single-profile-picture/${data.PostFound.PosterPublicKeyBase58Check}?fallback=https://diamondapp.com/assets/img/default_profile_pic.png`} 
@@ -60,13 +72,20 @@ export default function Post({ mode }) {
           <hr />
       </section>
       <div className="container">
-        {data.PostFound.ImageURLs && <img src={data.PostFound.ImageURLs[0]} alt={data.PostFound.ProfileEntryResponse.Username} className="cover" />}
+        {data.PostFound.ImageURLs && <img src={data.PostFound.ImageURLs[0]} alt={data.PostFound.ProfileEntryResponse.Username} className="cover my-2" />}
         <div dangerouslySetInnerHTML={{__html: md.render(`${data.PostFound.Body}`)}}>
         </div>
-        <div className="tag-bar">
-          {data.PostFound.PostExtraData.tags && data.PostFound.PostExtraData.tags.map(tag => <a href={`/posts?tag=${tag}`} className={`btn btn-outline-${mode}`}>{tag}</a>)}
+        <hr />
+        <div className="tag-bar my-3">
+          {data.PostFound.PostExtraData.tags && JSON.parse(data.PostFound.PostExtraData.tags).map((tag, idx) => (
+            <Link to={`/posts?tag=${tag}`} key={idx}>
+              <button className={`btn btn-outline-${modeInverse()} mx-2`}>
+                  <i className="fas fa-hashtag mx-1"></i> 
+                  {tag}
+              </button>
+            </Link>
+          ))}
         </div>
-        
       </div>
     </div> :
     <div className="loading">Loading...</div>

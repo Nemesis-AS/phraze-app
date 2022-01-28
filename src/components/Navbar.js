@@ -25,7 +25,7 @@ export default function Navbar(props) {
           </a>
 
           <a className='navbar-brand' href='/'>
-            Zettr
+            Phraze.app
           </a>
           <button
             className='navbar-toggler'

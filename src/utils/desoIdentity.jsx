@@ -10,7 +10,7 @@ class DesoIdentity {
     this.signTxResolve = null;
     this.IdentityUsersKey = "identityUsersV2";
     this.transactionHex = "";
-
+    this.jwtResolve = null;
     this.addListener();
   }
 
@@ -72,6 +72,29 @@ class DesoIdentity {
     });
   }
 
+  getJWT() {
+    return new Promise((resolve, reject) => {
+      console.log("in getJWT()");
+      this.jwtResolve = resolve;
+      const id = this.uuid();
+      const user = JSON.parse(localStorage.getItem(this.IdentityUsersKey));
+      const payload = {
+        accessLevel: user.accessLevel,
+        accessLevelHmac: user.accessLevelHmac,
+        encryptedSeedHex: user.encryptedSeedHex,
+      };
+      this.source.postMessage(
+        {
+          id: id,
+          service: "identity",
+          method: "jwt",
+          payload: payload,
+        },
+        "*"
+      );
+    });
+  }
+
   approveSignTx(transactionHex) {
     this.identityWindow = window.open(
       "https://identity.deso.org/approve?tx=" + transactionHex,
@@ -91,7 +114,7 @@ class DesoIdentity {
     );
   }
   getInfo() {
-    // console.log("getinfo");
+    console.log("getinfo");
     const id = this.uuid();
 
     this.source.postMessage(
@@ -104,28 +127,8 @@ class DesoIdentity {
     );
   }
 
-  // getJwt() {
-  //   const id = this.uuid();
-  //   const user = JSON.parse(localStorage.getItem(this.IdentityUsersKey));
-  //   const payload = {
-  //     accessLevel: user.accessLevel,
-  //     accessLevelHmac: user.accessLevelHmac,
-  //     encryptedSeedHex: user.encryptedSeedHex,
-  //   };
-
-  //   this.postMessage(
-  //     {
-  //       id: id,
-  //       service: "identity",
-  //       method: "jwt",
-  //       payload: payload,
-  //     },
-  //     "*"
-  //   );
-  // }
-
   handleLogin(payload) {
-    // console.log(payload);
+    console.log(payload);
     if (this.identityWindow) {
       this.identityWindow.close();
       this.identityWindow = null;
@@ -139,7 +142,7 @@ class DesoIdentity {
   }
 
   handleSign(payload) {
-    // console.log(payload);
+    console.log(payload);
 
     const signedTransactionHex = payload["signedTransactionHex"];
     if (this.identityWindow) {
@@ -159,20 +162,22 @@ class DesoIdentity {
       "*"
     );
   }
-
+  handleJwt(jwt) {
+    this.jwtResolve(jwt);
+  }
   handleInit(e) {
     if (!this.init) {
       this.init = true;
 
       for (const e of this.pendingRequests) {
-        // console.log("i'm in the pendingRequests loop");
+        console.log("i'm in the pendingRequests loop");
         e.source.postMessage(e, "*");
       }
 
       this.pendingRequests = [];
       this.pm_id = e.data.id;
       this.source = e.source;
-      // console.log("this.source", this.source);
+      console.log("this.source", this.source);
     }
     this.respond(e.source, e.data.id, {});
   }
@@ -185,22 +190,26 @@ class DesoIdentity {
 
   addListener() {
     window.addEventListener("message", (message) => {
+      // console.log(message)
+
       const {
         data: { id: id, method: method, service: service, payload: payload },
       } = message;
       if (service !== "identity") {
         return;
       }
-
-      if (method == "initialize") {
+      if (payload.jwt) {
+        this.handleJwt(payload.jwt);
+      }
+      if (method === "initialize") {
         this.handleInit(message);
       } else if ("signedTransactionHex" in payload) {
-        // console.log("signedTransactionHex", payload);
+        console.log("signedTransactionHex", payload);
         this.handleSign(payload);
       } else if ("approvalRequired" in payload) {
-        // console.log("approvalRequired", payload);
+        console.log("approvalRequired", payload);
         this.approveSignTx(this.transactionHex);
-      } else if (method == "login") {
+      } else if (method === "login") {
         this.handleLogin(payload);
       }
     });

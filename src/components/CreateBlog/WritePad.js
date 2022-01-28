@@ -4,8 +4,9 @@ import getThemeColors from "../Themes/Theme";
 import WritePadBar from "./WritePadBar";
 import PreviewMarkdown from "../Markdown/PreviewMarkdown";
 
+import guideText from "./Guide";
+
 export default function WritePad(props) {
-  const [bodyText, setBodyText] = useState("");
   const [bodyLabel, setBodyLabel] = useState("Write you story...");
   const [currentTab, setCurrentTab] = useState("write"); // Possible Values: write, preview, guide
   const [currentHeight, setCurrentHeight] = useState(96);
@@ -30,7 +31,7 @@ export default function WritePad(props) {
 
   const handleBodyChange = (event) => {
     let bodyValue = event.target.value;
-    setBodyText(bodyValue);
+    props.setBodyText(bodyValue);
     updateHeight();    
     if (bodyValue.length > 0) {
       setBodyLabel("");
@@ -70,10 +71,10 @@ export default function WritePad(props) {
         const splitText = actionInfo.split("||");
         if (splitText[1] === " ") splitText[1] = "";
         let pointerOffset = splitText[0].length;
-        setBodyText(bodyText + splitText.join(""));
+        props.setBodyText(props.bodyText + splitText.join(""));
         focusInput(startBegin + pointerOffset);
     } else {
-      setBodyText(getFormattedString(actionInfo, startBegin, startEnd));
+      props.setBodyText(getFormattedString(actionInfo, startBegin, startEnd));
     }
 
     updateHeight();
@@ -92,7 +93,7 @@ export default function WritePad(props) {
   const getFormattedString = (text, pointerStart, pointerEnd) => {
     let textToAdd = text.split("||");
     if (textToAdd[1] === " ") textToAdd[1] = "";
-    let finalText = bodyText.substring(0, pointerStart) + textToAdd[0] + bodyText.substring(pointerStart, pointerEnd) + textToAdd[1] + bodyText.substring(pointerEnd);
+    let finalText = props.bodyText.substring(0, pointerStart) + textToAdd[0] + props.bodyText.substring(pointerStart, pointerEnd) + textToAdd[1] + props.bodyText.substring(pointerEnd);
     return finalText;
   }
 
@@ -106,7 +107,7 @@ export default function WritePad(props) {
             id='floatingTextarea1'
             onChange={handleBodyChange}
             ref={bodyTextArea}
-            value={bodyText}
+            value={props.bodyText}
             style={{
               minHeight: "120px",
               resize: "none",
@@ -129,7 +130,7 @@ export default function WritePad(props) {
             }}>
             {bodyLabel}
           </label>
-      </div>): <PreviewMarkdown mode={props.mode} text={currentTab === "preview" ? bodyText : "# Guide"} />}
+      </div>): <PreviewMarkdown mode={props.mode} text={currentTab === "preview" ? props.bodyText : guideText} />}
     </div>
   );
 }

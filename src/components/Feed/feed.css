@@ -1,14 +1,11 @@
-
 .profileImage {
-    border-radius: 50%;
-    overflow: hidden;
-
+  border-radius: 50%;
+  overflow: hidden;
 }
-.blog-header{
-   width: 360px;
-   height: 200px;
-   background-repeat: no-repeat;
-   background-position: center;
-   background-size: cover;
-
+.blog-header {
+  max-width: 360px;
+  max-height: 200px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }

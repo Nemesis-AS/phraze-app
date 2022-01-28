@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes as Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes as Switch, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import Navbar from "./components/Navbar";
@@ -40,10 +40,10 @@ function App() {
 
     // Little Theme fix
     document.body.style.backgroundColor = theme === "light" ? "white" : "#2d3237";
-  }, []);
+  }, [theme]);
 
   const login = async () => {
-    const user = await desoIdentity.loginAsync(4);
+    const user = await desoIdentity.loginAsync(3);
     setSetPublicKey(user.publicKey);
     setLoggedIn(true);
   };
@@ -52,6 +52,21 @@ function App() {
     const result = await desoIdentity.logout(publicKey);
     setSetPublicKey(null);
     setLoggedIn(false);
+  };
+
+  const submitPost = async ({ title, tags, coverImg, body }) => {
+    console.log("Submitting...");
+    const publicKey = JSON.parse(localStorage.getItem(IdentityUsersKey)).publicKey;
+    // title, tags: JSON.stringify(tags)
+
+    // Upload Image
+    const jwt = await desoIdentity.getJWT();
+    const imgPayload = await desoApi.uploadImage(coverImg, publicKey, jwt);
+
+    const submittedPost = await desoApi.submitPost(publicKey, body, {title, tags: JSON.stringify(tags)}, "", [imgPayload.ImageURL]);
+    const transactionHex = submittedPost.TransactionHex;
+    const signedTransaction = await desoIdentity.signTxAsync(transactionHex);
+    const submitTransaction = await desoApi.submitTransaction(signedTransaction);
   };
 
   const toggleMode = () => {
@@ -100,14 +115,15 @@ function App() {
         <Route
           path='/create'
           element={
+            localStorage.getItem(IdentityUsersKey) ?
             <>
               <Navbar
                 mode={theme}
                 toggleMode={toggleMode}
                 navbarContent={navbarContent}
               />
-              <CreateBlog mode={theme} />
-            </>
+              <CreateBlog mode={theme} submitPost={submitPost} />
+            </> : <Navigate to="/" />
           }
         ></Route>
         <Route
