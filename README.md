@@ -1,6 +1,2 @@
-# Zettr
-Just Zettr
-
-![Zettr Logo](/src/assets/images/logo.png)
-
-live preview at : 
+# PhrazeApp
+PhrazeApp is a a platform built on top of DeSo blockchain that offers users to share their thought in a blog-like format, also giving them the power of Markdown.
