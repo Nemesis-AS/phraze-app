@@ -97,7 +97,7 @@ export default function Navbar(props) {
 
             {props.navbarContent.loginButton ? (
               <button
-                className='btn btn-primary btn-lg shadow-sm'
+                className='btn btn-primary btn-lg shadow-sm d-flex'
                 onClick={props.loginWithDeSo}>
                 Login with <img src={loginWithDeso} className='login-btn'></img>
               </button>
