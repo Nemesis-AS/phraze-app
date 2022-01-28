@@ -19,6 +19,7 @@ function App() {
   const [publicKey, setSetPublicKey] = useState(null);
   const [desoIdentity, setDesoIdentity] = useState(null);
   const [desoApi, setDesoApi] = useState(null);
+  const [alerts, setAlerts] = useState(null);
 
   useEffect(() => {
     const di = new DesoIdentity();
@@ -61,12 +62,21 @@ function App() {
 
     // Upload Image
     const jwt = await desoIdentity.getJWT();
-    const imgPayload = await desoApi.uploadImage(coverImg, publicKey, jwt);
+    let imgPayload = await desoApi.uploadImage(coverImg, publicKey, jwt);
 
     const submittedPost = await desoApi.submitPost(publicKey, body, {title, tags: JSON.stringify(tags)}, "", [imgPayload.ImageURL]);
     const transactionHex = submittedPost.TransactionHex;
     const signedTransaction = await desoIdentity.signTxAsync(transactionHex);
     const submitTransaction = await desoApi.submitTransaction(signedTransaction);
+    createAlert("success", "Blog Published Successfully!");
+  };
+
+  const createAlert = (theme, text) => {
+    let alertEl = (<div className={`alert alert-${theme} alert-dismissible fade show`} role="alert">
+      {text}
+      <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>);
+    setAlerts(alertEl);
   };
 
   const toggleMode = () => {
@@ -122,6 +132,7 @@ function App() {
                 toggleMode={toggleMode}
                 navbarContent={navbarContent}
               />
+              {alerts}
               <CreateBlog mode={theme} submitPost={submitPost} />
             </> : <Navigate to="/" />
           }

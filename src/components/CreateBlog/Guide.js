@@ -87,17 +87,17 @@ console.log(foo(5));
 
 | Option | Description |
 | ------ | ----------- |
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+| lorem  | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. |
+| ipsum  | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore |
+| dolor  | Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum |
 
 Right aligned columns
 
 | Option | Description |
 | ------:| -----------:|
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+| lorem  | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. |
+| ipsum  | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore |
+| dolor  | Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum |
 
 
 ## Links
@@ -110,7 +110,7 @@ Autoconverted link https://bitclout.com
 
 ## Images
 
-![Minion](https://octodex.github.com/images/minion.png)
+![Photo by Anna Tarazevich from Pexels](https://i.ibb.co/2j1R1dB/pexels-anna-tarazevich-5425611.jpg)
 `;
 
 export default guideText;

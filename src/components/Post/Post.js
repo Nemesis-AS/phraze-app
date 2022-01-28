@@ -88,7 +88,7 @@ export default function Post({ mode }) {
         </div>
       </div>
     </div> :
-    <div className="loading">Loading...</div>
+    <div className={`loading text-${modeInverse()}`}>Loading...</div>
     }
     
   </>);

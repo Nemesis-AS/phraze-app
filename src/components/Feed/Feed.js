@@ -80,16 +80,19 @@ export default function Feed({ mode }) {
         />
         <Link to={inputHex ? `/post/${inputHex}` : ""}><button className="btn btn-outline-success">Go!</button></Link>
       </div>
-
-      {data && console.log(data)}
+      <div className={`container p-3 bg-${mode} text-${mode === "light" ? "black": "white"}`} style={{"marginBottom": ".5rem"}}>
+        <div className="text-muted">
+          Example Hash: b5173d3a36471f399d80de6fb30ac2b9a9ec0a293c9eb7540f6c16d008c26ca8
+        </div>
+      </div>
 
       {data &&
         data.Posts.map((x) => (
-
+          x.PostExtraData.title &&
           <FeedCard
             key={x.PostHashHex}
             postId={x.PostHashHex}
-            username={userData.data.Profile.Username}
+            username={userData ? userData.data.Profile.Username : ""}
             body={x.Body}
             mode={mode}
             posterKey={userKey}

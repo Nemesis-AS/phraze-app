@@ -14,7 +14,7 @@ export default function Navbar(props) {
           props.mode
         } ${props.mode === "light" ? "" : "navnar-darkTheme"}`}>
         <div className='container-fluid'>
-          <a className='navbar-brand' href='/'>
+          {/* <a className='navbar-brand' href='/'>
             <img
               src='https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg'
               alt=''
@@ -22,7 +22,7 @@ export default function Navbar(props) {
               height='24'
               className='d-inline-block align-text-top'
             />
-          </a>
+          </a> */}
 
           <a className='navbar-brand' href='/'>
             Phraze.app
@@ -47,7 +47,7 @@ export default function Navbar(props) {
               {props.navbarContent.createPost ? (
               <li className='nav-item'>
                 <a className='nav-link active' aria-current='page' href='/create'>
-                  Create Story
+                  Write Blog
                 </a>
               </li>
             ) : (

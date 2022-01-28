@@ -71,7 +71,7 @@ export default function FeedCard({
             <a className='btn btn-outline-primary mx-1' role='button' href={`/post/${postId}`}>Read More</a>
           </div>
           <div className='col-md-4'>
-            {imageURL && (
+            {imageURL && imageURL[0] !== "" && (
               <img src={imageURL[0]} className="img-fluid" alt="Post Cover" />
             )}
           </div>
