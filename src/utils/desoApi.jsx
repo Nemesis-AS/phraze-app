@@ -1,5 +1,4 @@
 import axios from "axios";
-//var axios = require('axios')
 
 const DEFAULT_NODE_URL = "https://love4src.com/api";
 //const DEFAULT_NODE_URL = "https://api.desodev.com/api"

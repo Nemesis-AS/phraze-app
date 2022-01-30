@@ -13,10 +13,6 @@ export default function Feed({ mode }) {
 
   const [inputHex, setInputHex] = useState("");
 
-  // useEffect(() => {
-  //   if (!userKey) navigate("/", { replace: true });
-  // }, []);
-
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -25,12 +21,6 @@ export default function Feed({ mode }) {
       NumToFetch: 20
     })
   };
-
-  // ReaderPublicKeyBase58Check: userKey,
-  // FetchSubcomments: false,
-  // GetPostsForFollowFeed: false,
-  // GetPostsForGlobalWhitelist: false,
-  // GetPostsByDESO: false
 
   const { data, error, isLoading } = useFetch( 
     "get-posts-for-public-key",
@@ -49,6 +39,7 @@ export default function Feed({ mode }) {
   )
 
   return (
+    // To Be Used
     // <div className={`container bg-${mode} mt-2 pt-2`}>
     //   {!data && isLoading && "Loading..."}
     //   {!data && error && "Error..."}
@@ -106,13 +97,4 @@ export default function Feed({ mode }) {
       }
     </div>
   );
-}
-
-{
-  /* <div key={x.PostHashHex}>
-        <br></br>
-        <p>username: {x.ProfileEntryResponse.Username}</p>
-        {x.Body}
-    </div>)
-*/
 }

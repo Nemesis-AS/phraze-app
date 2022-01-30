@@ -1,8 +1,8 @@
 import React from "react";
-import Logo from "../../assets/images/logo.png";
+import moment from "moment";
 import PreviewMarkdown from "../Markdown/PreviewMarkdown";
-import getReadableDate from "../../utils/readableDate"
 import "./feed.css";
+
 export default function FeedCard({
   postId,
   username,
@@ -19,6 +19,10 @@ export default function FeedCard({
   const truncateString = (text, len = 100) => {
     if (text.length <= len) return text;
     return text.substring(0, len) + "...";
+  };
+
+  const getRelativeTime = timestamp => {
+    return moment(timestamp / 1e6).fromNow();
   };
 
   return (
@@ -47,13 +51,13 @@ export default function FeedCard({
                 </div>
                 <div className='ms-2 c-details'>
                   <h6 className='mb-0'>{username}</h6>{" "}
-                  <span>{getReadableDate(timestamp).timeDiff}</span>
+                  <span>{getRelativeTime(timestamp)}</span>
                 </div>
               </div>
             </div>
             <h5 className='card-title fs-2'>{extraData.title || "Title"}</h5>
 
-            <p className='card-text'><PreviewMarkdown mode={mode} text={truncateString(body)} /></p>
+            <div className='card-text'><PreviewMarkdown mode={mode} text={truncateString(body)} /></div>
 
             {/* <button
               className={`btn btn-outline-${

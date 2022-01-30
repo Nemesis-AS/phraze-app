@@ -1,10 +1,10 @@
-import React, { useEffect } from "react"; // { useEffect, useState }
+import React from "react";
+import moment from "moment";
 import MarkDownIt from "markdown-it";
 import markdownItEmoji from "markdown-it-emoji";
 import hljs from "highlight.js";
 import { Link, useParams } from "react-router-dom";
 import { useFetch } from "../../utils/useFetch";
-import getReadableDate from "../../utils/readableDate";
 
 import "./Post.css";
 
@@ -19,7 +19,8 @@ const md = new MarkDownIt({
       }
   
       return '<pre class="hljs p-2"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
-  }
+  },
+  linkify: true
 }).use(markdownItEmoji);
 
 export default function Post({ mode }) {
@@ -27,16 +28,6 @@ export default function Post({ mode }) {
   md.renderer.rules.table_open = function() { return `<table class='table table-striped table-${mode}'>` };
 
   const params = useParams(); // URL Params[Post ID]
-
-  // useEffect(() => {
-  //   getPost();
-  // }, []);
-
-  // const getPost = async () => {
-  //   // console.log(desoApi);
-  //   // let post = await desoApi.getSinglePost(params.id);
-  //   // console.log(post)
-  // }
 
   const { data } = useFetch("get-single-post", {
     method: "POST",
@@ -47,6 +38,10 @@ export default function Post({ mode }) {
   });
 
   const modeInverse = () => mode === "light" ? "dark" : "light";
+
+  const getDate = timestamp => {
+    return moment(timestamp / 1e6).format("MMM Do, YYYY");
+  };
 
   return (
   <>
@@ -64,7 +59,7 @@ export default function Post({ mode }) {
               />
               <div className="d-flex flex-column">
                 <div className="fw-light fs-4">{data.PostFound.ProfileEntryResponse.Username}</div>
-                <div className="text-muted">{getReadableDate(data.PostFound.TimestampNanos).readableTime.split(" ")[0]}</div>
+                <div className="text-muted">{getDate(data.PostFound.TimestampNanos)}</div>
               </div>
               
           </div>
@@ -88,7 +83,7 @@ export default function Post({ mode }) {
         </div>
       </div>
     </div> :
-    <div className={`loading text-${modeInverse()}`}>Loading...</div>
+    <div className={`container p-3 text-center loading text-${modeInverse()}`}>Loading...</div>
     }
     
   </>);

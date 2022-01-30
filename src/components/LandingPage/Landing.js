@@ -2,7 +2,6 @@ import React from "react";
 import "./LandingPage.css";
 import getThemeColors from "../Themes/Theme";
 import peopleWithDeso from "../../assets/images/peopleWithDeso.svg";
-// import writeBlog from "../../assets/images/writeBlog.svg";
 import noAds from "../../assets/images/noAds.svg";
 import earnRevenue from "../../assets/images/earnRevenue.svg";
 

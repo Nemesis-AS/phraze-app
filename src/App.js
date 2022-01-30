@@ -58,7 +58,6 @@ function App() {
   const submitPost = async ({ title, tags, coverImg, body }) => {
     console.log("Submitting...");
     const publicKey = JSON.parse(localStorage.getItem(IdentityUsersKey)).publicKey;
-    // title, tags: JSON.stringify(tags)
 
     // Upload Image
     const jwt = await desoIdentity.getJWT();

@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useRef, useEffect } from "react/cjs/react.development";
+import React, { useState, useRef, useEffect } from "react";
 import getThemeColors from "../Themes/Theme";
 import WritePadBar from "./WritePadBar";
 import PreviewMarkdown from "../Markdown/PreviewMarkdown";
@@ -85,8 +84,6 @@ export default function WritePad(props) {
     if (bodyTextArea.current.scrollHeight >= 96) {
       setCurrentHeight(1);
       setCurrentHeight(bodyTextArea.current.scrollHeight);
-      // bodyTextArea.current.style.height = "128px";
-      // bodyTextArea.current.style.height = `${bodyTextArea.current.scrollHeight}px`;
     }
   }
 

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
+
 import loginWithDeso from "../assets/images/loginWithDeso.svg";
+
 export default function Navbar(props) {
   const themeCheckBox = useRef();
 
@@ -14,7 +16,8 @@ export default function Navbar(props) {
           props.mode
         } ${props.mode === "light" ? "" : "navnar-darkTheme"}`}>
         <div className='container-fluid'>
-          {/* <a className='navbar-brand' href='/'>
+          {/* Will be used later
+            <a className='navbar-brand' href='/'>
             <img
               src='https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg'
               alt=''
@@ -75,25 +78,6 @@ export default function Navbar(props) {
             ) : (
               <div></div>
             )}
-
-            {/* {props.navbarContent.settingButton ? (
-              <button
-                className={`btn type1-button my-2 my-sm-0 mx-2 text-${
-                  props.mode === "light" ? "black" : "white"
-                }`}>
-                <i className='fa fa-cog'></i> Settings{" "}
-              </button>
-            ) : (
-              <div></div>
-            )}
-
-            {props.navbarContent.publishButton ? (
-              <button className='btn shadow-sm btn-outline-primary'>
-                Publish
-              </button>
-            ) : (
-              <div></div>
-            )} */}
 
             {props.navbarContent.loginButton ? (
               <button
