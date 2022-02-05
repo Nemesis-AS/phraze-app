@@ -46,9 +46,9 @@ export default function Post({ mode }) {
   return (
   <>
   {data ?
-    <div className={`container ${mode === "light" ? "text-black" : "text-white"}`}>
+    <div className={`container ${mode === "light" ? "text-black" : "text-white"} my-5`}>
       <section>
-          <div className="h1 my-2">{data.PostFound.PostExtraData.title || data.PostFound.ProfileEntryResponse.Username}</div>
+         
           <div className="user-info d-flex align-items-center">
               <img 
                 src={`https://diamondapp.com/api/v0/get-single-profile-picture/${data.PostFound.PosterPublicKeyBase58Check}?fallback=https://diamondapp.com/assets/img/default_profile_pic.png`} 
@@ -63,7 +63,7 @@ export default function Post({ mode }) {
               </div>
               
           </div>
-          
+          <div className="h1 my-2">{data.PostFound.PostExtraData.title || data.PostFound.ProfileEntryResponse.Username}</div>
           <hr />
       </section>
       <div className="container">

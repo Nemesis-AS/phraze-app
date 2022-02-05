@@ -5,6 +5,12 @@ img {
   max-width: 90%;
 }
 
+pre {
+  background-color: #1e2837 !important;
+  border-radius: 10px !important;
+  padding: 50px !important;
+}
+
 .profile-picture {
   border-radius: 50%;
 }
